@@ -1,0 +1,55 @@
+# rsync + inotify
+# inotify need kernel >= 2.6.13,if not,install manual
+#
+# 1 install in client and server
+# 1.1 install rsync and inotify
+# sudo apt-get install rsync             (server and client need,usage see in https://rsync.samba.org/documentation.html)
+# sudo apt-get install inotify-tools     (client need)
+#
+# 2.config
+# create rsyncd.conf and set
+# config and scripts saved in http://git.kandao.tech/wuminlai/webserver.git
+# 
+# 3 rsync
+# 3.1 media deploy
+# 3.1.1 server deploy (ali ecs(media server): root@120.24.86.69 KanDao@1234)
+# as uid and gid set int the rsyncd_server.conf, chown the directory
+# chown [uid]:[gid] /data -R
+#
+# manual:
+# rcync --deamon --config=/webserver/rsync/rsyncd_server.conf
+# auto:
+# bash -x rsync.sh
+#
+# 3.1.2 client deploy(video source machine,r730.kandao.tech kandao password is space)
+# manual
+# rsync -avH --progress --password-file=/etc/rsyncd_client.passwd /test/ root@120.24.86.69::data
+#
+# rsync -avH --progress --password-file=rsyncd_client.passwd ../origin/image/ root@120.24.86.69::image
+# auto
+# before inotify.sh start, start all files to sync by manual
+#	use crontab to rsync per 2 hour
+#   --crontab -e
+#   --* */2 * * * cd /data;rsync -avzcPR --password-file=/etc/rsyncd_client.passwd ./ --exclude-from=/data/rsyncexclude.txt root@portal.kandao.tech::data
+
+# bash -x inotify.sh
+#
+# 3.2 mediaserver deploy
+# config/scripts/deployment deploy as media
+#
+# 4 questions or tips
+#   --The permissions of sync folders should be 755 own to correct useid and groupid
+#   --The permissions of password file should be 600,and user should add to /etc/passwd,the password should be correct
+#   --Make sure that the remote folders and local folders is exist before the sh is running
+#   --Check the modules name before start
+#
+# /proc/sys/fs/inotify/
+# max_user_watches   # increase to 5000000
+# max_user_instance
+# max_queued_events  # increase to 5000000
+#
+# 5 upload to qiniu cloud
+# pip3.5 install qiniu
+# upload video sources (transcode files) to qiniu cloud (webmirror)
+# run upload.py
+# python3.5 upload.py -p /data/MP4/

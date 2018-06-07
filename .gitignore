@@ -1,0 +1,16 @@
+# Created by .ignore support plugin (hsz.mobi)
+.gitignore
+.idea/
+__pycache__/
+logs/
+test/
+progress/aa/
+progress/brug3_WithAnOrchid_23-04.mp4
+progress/lvcjr3Q_5XEvZftn4RhT4IJzmS0G.7z
+progress/razorback.mp3
+progress/razorback.mp3.1
+progress/test.7z
+progress/test.mp4
+progress/test3.mp4
+progress/unzip/
+/cdn/local_settings.py

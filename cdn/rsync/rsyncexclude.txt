@@ -1,0 +1,7 @@
+origin
+origin/*
+_thumbnails
+_thumbnails/*
+WEBM
+WEBM/*
+rsyncexclude.txt
